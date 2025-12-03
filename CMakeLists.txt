@@ -1,7 +1,21 @@
 cmake_minimum_required(VERSION 3.10)
-project(PROJECT CXX)
+project(RandomHelper CXX)
 set(CMAKE_CXX_COMPILER "g++")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# create an INTERFACE target for a header-only library
+add_library(RandomHelper INTERFACE)
+
+target_include_directories(RandomHelper INTERFACE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+# set a public C++ standard requirement for consumers
+target_compile_features(RandomHelper INTERFACE cxx_std_23)
+
+# add an alias so consumers can use "RandomHelper::RandomHelper"
+add_library(RandomHelper::RandomHelper ALIAS RandomHelper)
+
 
 if(false)
     find_program(CLANG_TIDY_EXE clang-tidy)
