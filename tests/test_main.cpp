@@ -27,3 +27,19 @@ TEST_CASE("select_randomly must return a valid iterator") {
     const auto iter = rnd::select_randomly(strings_vector.begin(), strings_vector.end());
     REQUIRE((iter != strings_vector.end()));
 }
+
+TEST_CASE("select_randomly must return a valid iterator with range") {
+    const std::vector<std::string> strings_vector{"Hello!", "Hi!", "How are you?", "Good bye!"};
+
+    const auto iter = rnd::select_randomly(strings_vector);
+    REQUIRE((iter != strings_vector.end()));
+}
+
+TEST_CASE("select_randomly_value must should work with rvalue ranges") {
+    const auto value = rnd::select_randomly_value(
+        std::vector<std::string>{"Hello!", "Hi!", "How are you?", "Good bye!"});
+    const auto strings_vector =
+        std::vector<std::string>{"Hello!", "Hi!", "How are you?", "Good bye!"};
+    const auto iter = std::ranges::find(strings_vector, value);
+    REQUIRE((iter != strings_vector.end()));
+}
