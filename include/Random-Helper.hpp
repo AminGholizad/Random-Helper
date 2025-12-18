@@ -50,16 +50,16 @@ template <Iterator I, RandomGenerator G>
 [[nodiscard]] constexpr I select_randomly(I first, I last, G &generator) {
     if constexpr (std::random_access_iterator<I>) {
         std::uniform_int_distribution<std::iter_difference_t<I>> dis(0, last - first - 1);
-        return first + dis(gen);
+        return first + dis(generator);
     } else {
         std::uniform_int_distribution<std::iter_difference_t<I>> dis(0, std::distance(first, last) -
                                                                             1);
-        std::advance(first, dis(gen));
+        std::advance(first, dis(generator));
         return first;
     }
 }
 template <Iterator I> [[nodiscard]] constexpr I select_randomly(I first, I last) {
-    return select_randomly(start, end, Generator());
+    return select_randomly(first, last, Generator());
 }
 
 template <Borrowed_Range R, RandomGenerator G>
